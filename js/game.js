@@ -249,8 +249,9 @@ export class Game {
   }
 
   _advance(dz) {
-    // outbound is -z; dz is negative when moving forward
-    this.bus.position.z += dz;
+    // the route runs outbound in -z (Railways +60 -> Rongai -1020),
+    // so positive speed (forward) must DECREASE z.
+    this.bus.position.z -= dz;
     // end of the line
     if (this.bus.position.z <= STAGES[STAGES.length - 1].z) {
       this.bus.position.z = STAGES[STAGES.length - 1].z;
