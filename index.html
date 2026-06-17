@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>NGANYA — A DRACO iNC Matatu Simulator</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚐</text></svg>" />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- ===== HUD ===== -->
+<div id="hud">
+  <div class="hud-row top">
+    <div class="brand">NGANYA <span>· ROUTE 125 · RONGAI</span></div>
+    <div class="pill" id="rolePill">ROLE <span class="val gold" id="role">DRIVER</span></div>
+  </div>
+
+  <div class="hud-row stats">
+    <div class="stat"><div class="k">CASH</div><div class="v" id="cash">KSh 0</div><div class="sub" id="target">/ 3,000</div></div>
+    <div class="stat"><div class="k">ABOARD</div><div class="v" id="onboard">0/14</div></div>
+    <div class="stat fuelbox"><div class="k">FUEL</div><div class="fuelbar"><div id="fuelFill"></div></div></div>
+  </div>
+
+  <div class="hud-row route">
+    <div class="rstage"><span class="k">AT</span> <b id="stageNow">Railways</b></div>
+    <div class="rstage"><span class="k">NEXT</span> <b id="stageNext">Prestige</b></div>
+    <div class="rstage"><span class="k">CAM</span> <b id="cam">CHASE</b></div>
+  </div>
+</div>
+
+<div id="sheng"></div>
+<div id="toast"></div>
+<div id="crosshair">+</div>
+<div id="hint">Driver: W accelerate · S brake · A/D steer · Space handbrake</div>
+
+<!-- on-screen buttons (mobile-friendly) -->
+<div id="buttons">
+  <button id="btnRole" class="btn">⇄ ROLE <small>(R)</small></button>
+  <button id="btnCam" class="btn">◉ CAM <small>(C)</small></button>
+</div>
+
+<!-- ===== How to play ===== -->
+<div id="howto" class="overlay">
+  <div class="panel">
+    <div class="eyebrow">DRACO iNC — A DRACO DYNASTY TECHNOLOGY DEPARTMENT</div>
+    <h1>NGANYA</h1>
+    <div class="tagline">Route 125 · Railways → Rongai · be the driver, be the makanga</div>
+    <p>You run a 14-seater nganya on the Ngong Road / Rongai route. Switch between the two
+      jobs any time — the AI takes whichever seat you leave.</p>
+    <div class="howgrid">
+      <div><b class="gold">As DRIVER</b><br/>W accelerate · S brake · A/D steer · Space handbrake. Stop at each stage to load and drop. The AI makanga collects fares.</div>
+      <div><b class="pink">As CONDUCTOR</b><br/>The AI drives. W/S walk the aisle · A/D turn · <b>click a passenger to collect their fare</b> before they reach their stage.</div>
+    </div>
+    <p class="small">Hit the owner's target of <b>KSh 3,000</b> to finish the day. Unpaid passengers who reach their stage = lost fares.</p>
+    <button id="btnStart" class="cta">START THE SHIFT</button>
+    <div class="note">Best on Chrome/desktop. If a passenger is hard to click, turn with A/D to face them.</div>
+  </div>
+</div>
+
+<!-- ===== Day over ===== -->
+<div id="dayover" class="overlay">
+  <div class="panel">
+    <div class="eyebrow gold">END OF DAY</div>
+    <h1 style="font-size:3rem">SAFARI IMEISHA</h1>
+    <div id="doStats" class="dostats"></div>
+    <button id="btnNewDay" class="cta">NEW DAY</button>
+  </div>
+</div>
+
+<!-- file:// guard -->
+<div id="fileWarn" style="display:none"></div>
+
+<!-- Three.js r128 (global) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  if (location.protocol === 'file:') {
+    document.getElementById('howto').style.display = 'none';
+    const w = document.getElementById('fileWarn');
+    w.style.display = 'flex';
+    w.innerHTML = '<div style="max-width:520px;margin:auto;padding:30px;font-family:DM Sans,sans-serif;color:#F0EDE8;text-align:center">'
+      + '<h2 style="font-family:Bebas Neue;color:#C9A84C;letter-spacing:2px">RUN ON A SERVER</h2>'
+      + '<p>This game uses JavaScript modules, which browsers block on <code>file://</code>.</p>'
+      + '<p>Run a local server: <code>npx serve</code> (or <code>python -m http.server</code>) in this folder, '
+      + 'or just push to GitHub Pages.</p></div>';
+    w.style.cssText = 'display:flex;position:fixed;inset:0;background:#0A0A0F;z-index:9999;align-items:center;justify-content:center';
+  }
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
